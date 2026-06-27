@@ -11,7 +11,7 @@ submitBtn.addEventListener("click", async () => {
 
     try {
 
-        const response = await fetch("https://bfhl-api-gd98.onrender.com", {
+        const response = await fetch("https://bfhl-api-gd98.onrender.com/bfhl", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -21,14 +21,17 @@ submitBtn.addEventListener("click", async () => {
             })
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
         const data = await response.json();
 
         result.textContent = JSON.stringify(data, null, 4);
 
     } catch (err) {
 
-        result.textContent = "Error : Unable to connect to server";
-
+        result.textContent = err.message;
         console.error(err);
 
     }
